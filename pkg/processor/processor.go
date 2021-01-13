@@ -50,7 +50,11 @@ func (s *OperationProcessor) Resolve(uniqueSuffix string) (*protocol.ResolutionM
 
 	sortOperations(ops)
 
-	logger.Debugf("[%s] Found %d operations for unique suffix [%s]: %+v", s.name, len(ops), uniqueSuffix, ops)
+	logger.Infof("[%s] Found %d operations for unique suffix [%s]: %+v", s.name, len(ops), uniqueSuffix, ops)
+
+	for _, op := range ops {
+		logger.Infof("[%s] %+v", s.name, op)
+	}
 
 	rm := &protocol.ResolutionModel{}
 
@@ -68,7 +72,7 @@ func (s *OperationProcessor) Resolve(uniqueSuffix string) (*protocol.ResolutionM
 
 	// apply 'full' operations first
 	if len(fullOps) > 0 {
-		logger.Debugf("[%s] Applying %d full operations for unique suffix [%s]", s.name, len(fullOps), uniqueSuffix)
+		logger.Infof("[%s] Applying %d full operations for unique suffix [%s]", s.name, len(fullOps), uniqueSuffix)
 
 		rm = s.applyOperations(fullOps, rm, getRecoveryCommitment)
 		if rm.Deactivated {
